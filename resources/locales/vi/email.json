@@ -1,0 +1,11 @@
+{
+	"common.auto": "Đây là email tự động, vui lòng không trả lời email này.",
+	"withdrawal_confirmation.title": "Nami Exchange - Xác thực lệnh bán qua ĐTKD",
+	"withdrawal_confirmation.text_01": "Xác thực lệnh bán",
+	"withdrawal_confirmation.text_02": "Bạn hoặc ai đó đã thực hiện lệnh bán trên tài khoản của bạn ({email})",
+	"withdrawal_confirmation.text_03": "Số lượng: {amount}",
+	"withdrawal_confirmation.text_04": "Tài khoản nhận: {to}",
+	"withdrawal_confirmation.text_time": "Thời gian: {time}",
+	"withdrawal_confirmation.text_06": "Nhập 6 chữ số sau để xác thực lệnh bán",
+	"withdrawal_confirmation.text_07": "Nếu hành động này không phải của bạn, vui lòng <a href=\"https://auth.bitbattle.io/reset_password\" target=\"_blank\">thay đổi mật khẩu</a>, kiểm tra các thiết bị đăng nhập và thông tin tới Nami tại support@nami.exchange."
+}

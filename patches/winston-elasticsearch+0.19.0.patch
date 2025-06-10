@@ -1,0 +1,1088 @@
+diff --git a/node_modules/winston-elasticsearch/CHANGELOG.md b/node_modules/winston-elasticsearch/CHANGELOG.md
+index 92fbd86..5d29908 100644
+--- a/node_modules/winston-elasticsearch/CHANGELOG.md
++++ b/node_modules/winston-elasticsearch/CHANGELOG.md
+@@ -1,3 +1,157 @@
++0.19.0 / 2024-05-11
++===================
++
++- Upgrade dependencies
++
++0.18.0 / 2024-03-04
++===================
++
++- Upgrade dependencies
++
++0.17.3 / 2023-09-01
++===================
++
++- Upgrade dependencies
++
++0.17.2 / 2023-02-16
++===================
++
++- Fix typings
++
++0.17.1 / 2022-05-15
++===================
++
++- Fix typings
++
++0.17.0 / 2022-05-15
++===================
++
++- Upgrade dependencies, major new ES client version
++
++0.16.1 / 2022-01-24
++===================
++
++- Upgrade dependencies
++- Expose option `internalLogger` for last resort logger
++
++0.16.0 / 2021-12-08
++===================
++
++- Add more debug output
++- Upgrade dependencies
++- Fix duplicate entries when buffering is used
++
++0.15.9 / 2021-09-14
++===================
++
++- Fix last resort error logging
++
++0.15.8 / 2021-07-25
++===================
++
++- Fix last resort error logging
++
++0.15.7 / 2021-06-25
++===================
++
++- Upgrade optional APM dependency for making it work with node 16.
++
++0.15.6 / 2021-06-02
++===================
++
++- Upgrade ES client.
++
++0.15.5 / 2021-05-25
++===================
++
++- Expose transformer function so that it can be adapted.
++
++0.15.4 / 2021-04-09
++===================
++
++- Upgrade ES client
++- Add console.log output in case of bulk writer errors
++
++0.15.3 / 2021-03-20
++===================
++
++- Fix indexPrefix can be of type string | Function
++- Fix travis build process (ES JS Client (7.11.2 instead of 11), nodejs 8 deprecated on yargs)
++- Fix templateName is undefined or null if options.index is undefined or null
++- Correct npm link in README.md (browsenpm.org isn't connected to npm anymore)
++- Prevents resending successfully sent items.
++- Add `retryLimit` option
++- Fix index name not being passed to bulk writer
++
++0.15.1 / 2021-03-02
++===================
++
++- Fix index name not being passed to bulk writer
++
++0.15.0 / 2021-02-28
++===================
++
++- Introduce `source` parameter
++- Fix some datastream issues
++- Remove _type and don't write it
++
++0.14.0 / 2021-02-24
++===================
++
++- Rename config Property `ensureMappingTemplate` to `ensureIndexTemplate` and `mappingTemplate` accordingly
++- Make Index Templates not appear as Legacy ones in Kibana, use `putIndexTemplate` instead of `putTemplate`
++
++0.13.0 / 2021-02-12
++===================
++
++- ES 11 JS Client
++- Support for data streams
++- Drop support for ES <= 6
++
++0.12.3 / 2020-12-04
++===================
++
++- Increase retries from 5 to 400 (almost 7 minutes) as some massive uServices systems take a while until they spun up
++
++0.12.2 / 2020-11-26
++===================
++
++- Inject indexing error in case writing to ES fails
++
++0.12.1 / 2020-11-13
++===================
++
++- Use latest ES client
++- Docs fixes
++
++0.12.0 / 2020-11-02
++===================
++
++- Make retry mechanism give up after 5 retries
++- Make emit a warning only when the max retry has been reached
++- Make APM param optional
++- Move APM dependency into normal dependencies
++
++0.11.0 / 2020-10-22
++===================
++
++- Improve typings
++- Added flush() method to ES transport
++
++0.10.0 / 2020-08-18
++===================
++
++- Emit transport internal errors no longer as `error` but as `warning` because even when listened to with `.on('error', ...)` it lead to an `UnhandledPromiseRejectionWarning`.
++
++0.9.0 / 2020-05-16
++==================
++
++- Upgrade ES Client
++- New approach to error handling where, in case of an emitted error the source stream is automatically re-attached to the transport stream
++- This commit adds a retry counter - after the number of retries has been exceeded then the document is discarded.
++- Exposes healthcheck options
++- ES version specific mapping templates
++
+ 0.8.8 / 2020-04-07
+ ==================
+ 
+diff --git a/node_modules/winston-elasticsearch/LICENSE b/node_modules/winston-elasticsearch/LICENSE
+index 6a9bdf1..40ef4ad 100644
+--- a/node_modules/winston-elasticsearch/LICENSE
++++ b/node_modules/winston-elasticsearch/LICENSE
+@@ -1,6 +1,6 @@
+ The MIT License (MIT)
+ 
+-Copyright (c) 2015 - 2018 Thomas Hoppe.
++Copyright (c) 2015 - 2023 Thomas Hoppe.
+ Copyright (c) 2013 Jacques-Olivier D. Bernier.
+ 
+ Permission is hereby granted, free of charge, to any person obtaining a copy
+diff --git a/node_modules/winston-elasticsearch/README.md b/node_modules/winston-elasticsearch/README.md
+index cbbca28..7997c21 100644
+--- a/node_modules/winston-elasticsearch/README.md
++++ b/node_modules/winston-elasticsearch/README.md
+@@ -1,10 +1,13 @@
+ # winston-elasticsearch
+ 
+-[![Version npm][version]](http://browsenpm.org/package/winston-elasticsearch)[![Build Status][build]](https://travis-ci.org/vanthome/winston-elasticsearch)[![Dependencies][david]](https://david-dm.org/vanthome/winston-elasticsearch)[![Coverage Status][cover]](https://coveralls.io/r/vanthome/winston-elasticsearch?branch=master)
++[![Version npm][version]](https://www.npmjs.com/package/winston-elasticsearch)
++[![Build Status][build]](https://travis-ci.org/vanthome/winston-elasticsearch)
++[![Dependencies][dependencies]](https://david-dm.org/vanthome/winston-elasticsearch)
++[![Coverage Status][cover]](https://coveralls.io/r/vanthome/winston-elasticsearch?branch=master)
+ 
+ [version]: http://img.shields.io/npm/v/winston-elasticsearch.svg?style=flat-square
+ [build]: http://img.shields.io/travis/vanthome/winston-elasticsearch/master.svg?style=flat-square
+-[david]: https://img.shields.io/david/vanthome/winston-elasticsearch.svg?style=flat-square
++[dependencies]: https://img.shields.io/librariesio/release/npm/winston-elasticsearch.svg?style=flat-square
+ [cover]: http://img.shields.io/coveralls/vanthome/winston-elasticsearch/master.svg?style=flat-square
+ 
+ An [elasticsearch](https://www.elastic.co/products/elasticsearch)
+@@ -20,7 +23,9 @@ transport for the [winston](https://github.com/winstonjs/winston) logging toolki
+ 
+ ### Compatibility
+ 
+-For  **Winston 3.x**, **Elasticsearch 6.0** and later, use the `0.7.0`.
++For **Winston 3.7**, **Elasticsearch 8.0** and later, use the >= `0.17.0`.
++For **Winston 3.4**, **Elasticsearch 7.8** and later, use the >= `0.16.0`.
++For **Winston 3.x**, **Elasticsearch 7.0** and later, use the >= `0.7.0`.
+ For **Elasticsearch 6.0** and later, use the `0.6.0`.
+ For **Elasticsearch 5.0** and later, use the `0.5.9`.
+ For earlier versions, use the `0.4.x` series.
+@@ -38,17 +43,25 @@ npm install --save winston winston-elasticsearch
+ ## Usage
+ 
+ ```js
+-var winston = require('winston');
+-var Elasticsearch = require('winston-elasticsearch');
++const winston = require('winston');
++const { ElasticsearchTransport } = require('winston-elasticsearch');
+ 
+-var esTransportOpts = {
++const esTransportOpts = {
+   level: 'info'
+ };
+-var logger = winston.createLogger({
++const esTransport = new ElasticsearchTransport(esTransportOpts);
++const logger = winston.createLogger({
+   transports: [
+-    new Elasticsearch(esTransportOpts)
++    esTransport
+   ]
+ });
++// Compulsory error handling
++logger.on('error', (error) => {
++  console.error('Error in logger caught', error);
++});
++esTransport.on('error', (error) => {
++  console.error('Error in logger caught', error);
++});
+ ```
+ 
+ The [winston API for logging](https://github.com/winstonjs/winston#streams-objectmode-and-info-objects)
+@@ -58,21 +71,29 @@ If multiple objects are provided as arguments, the contents are stringified.
+ ## Options
+ 
+ - `level` [`info`] Messages logged with a severity greater or equal to the given one are logged to ES; others are discarded.
+-- `index` [none] the index to be used. This option is mutually exclusive with `indexPrefix`.
+-- `indexPrefix` [`logs`] the prefix to use to generate the index name according to the pattern `<indexPrefix>-<indexInterfix>-<indexSuffixPattern>`. Can be string or function, returning the string to use.
+-- `indexSuffixPattern` [`YYYY.MM.DD`] a [Moment.js](http://momentjs.com/) compatible date/ time pattern.
+-- `messageType` [`_doc`] the type (path segment after the index path) under which the messages are stored under the index.
+-- `transformer` [see below] a transformer function to transform logged data into a different message structure.
+-- `ensureMappingTemplate` [`true`] If set to `true`, the given `mappingTemplate` is checked/ uploaded to ES when the module is sending the fist log message to make sure the log messages are mapped in a sensible manner.
+-- `mappingTemplate` [see file `index-template-mapping.json` file] the mapping template to be ensured as parsed JSON.
+-- `flushInterval` [`2000`] distance between bulk writes in ms.
+-- `client` An [elasticsearch client](https://www.npmjs.com/package/@elastic/elasticsearch) instance. If given, all following options are ignored.
+-- `clientOpts` An object hash passed to the ES client. See [its docs](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/client-configuration.html) for supported options.
++- `index` [none | when `dataStream` is `true`, `logs-app-default`] The index to be used. This option is mutually exclusive with `indexPrefix`.
++- `indexPrefix` [`logs`] The prefix to use to generate the index name according to the pattern `<indexPrefix>-<indexSuffixPattern>`. Can be string or function, returning the string to use.
++- `indexSuffixPattern` [`YYYY.MM.DD`] a Day.js compatible date/ time pattern.
++- `transformer` [see below] A transformer function to transform logged data into a different message structure.
++- `useTransformer` [`true`] If set to `true`, the given `transformer` will be used (or the default). Set to `false` if you want to apply custom transformers during Winston's `createLogger`.
++- `ensureIndexTemplate` [`true`] If set to `true`, the given `indexTemplate` is checked/ uploaded to ES when the module is sending the first log message to make sure the log messages are mapped in a sensible manner.
++- `indexTemplate` [see file `index-template-mapping.json`] the mapping template to be ensured as parsed JSON.
++`ensureIndexTemplate` is `true` and `indexTemplate` is `undefined`
++- `flushInterval` [`2000`] Time span between bulk writes in ms.
++- `retryLimit` [`400`] Number of retries to connect to ES before giving up.
++- `healthCheckTimeout` [`30s`] Timeout for one health check (health checks will be retried forever).
++- `healthCheckWaitForStatus` [`yellow`] Status to wait for when check upon health. See [its API docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html) for supported options.
++- `healthCheckWaitForNodes` [`>=1`] Nodes to wait for when check upon health. See [its API docs](https://www.elastic.co/guide/en/elasticsearch/reference/current/cluster-health.html) for supported options.
++- `client` An [elasticsearch client](https://www.npmjs.com/package/@elastic/elasticsearch) instance. If given, the `clientOpts` are ignored.
++- `clientOpts` An object passed to the ES client. See [its docs](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/client-configuration.html) for supported options.
+ - `waitForActiveShards` [`1`] Sets the number of shard copies that must be active before proceeding with the bulk operation.
+ - `pipeline` [none] Sets the pipeline id to pre-process incoming documents with. See [the bulk API docs](https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/api-reference.html#api-bulk).
+-- `buffering` [true] Boolean flag to enable or disable messages buffering. The `bufferLimit` option is ignored if set to `false`.
+-- `bufferLimit` [null] Limit for the number of log messages in the buffer.
+-- `apm` [null] Inject [apm client](https://www.npmjs.com/package/elastic-apm-node) to link elastic logs with elastic apm traces.
++- `buffering` [`true`] Boolean flag to enable or disable messages buffering. The `bufferLimit` option is ignored if set to `false`.
++- `bufferLimit` [`null`] Limit for the number of log messages in the buffer.
++- `apm` [`null`] Inject [apm client](https://www.npmjs.com/package/elastic-apm-node) to link elastic logs with elastic apm traces.
++- `dataStream` [`false`] Use Elasticsearch [datastreams](https://www.elastic.co/guide/en/elasticsearch/reference/master/data-streams.html).
++- `source` [none] the source of the log message. This can be useful for microservices to understand from which service a log message origins.
++- `internalLogger` [`console.error`] A logger of last resort to log internal errors.
+ 
+ ### Logging of ES Client
+ 
+@@ -80,8 +101,8 @@ The default client and options will log through `console`.
+ 
+ ### Interdependencies of Options
+ 
+-When changing the `indexPrefix` and/ or the `transformer`,
+-make sure to provide a matching `mappingTemplate`.
++When changing the `indexPrefix` and/or the `transformer`,
++make sure to provide a matching `indexTemplate`.
+ 
+ ## Transformer
+ 
+@@ -105,7 +126,6 @@ Returns: Object with the following properties
+ - `severity` The log level of the entry
+ - `message` The message for the log entry
+ - `fields` The meta data for the log entry
+-- `indexInterfix` optional, the interfix of the index to use for this entry
+ 
+ The default transformer function's transformation is shown below.
+ 
+@@ -138,10 +158,24 @@ Output A:
+ }
+ ```
+ 
++The default transformer can be imported and extended
++### Example
++```js
++  const { ElasticsearchTransformer } = require('winston-elasticsearch');
++  const esTransportOpts = {
++  transformer: (logData) => {
++   const transformed = ElasticsearchTransformer(logData);
++   transformed.fields.customField = 'customValue'
++   return transformed;
++ }};
++const esTransport = new ElasticsearchTransport(esTransportOpts);
++
++```
++
+ Note that in current logstash versions, the only "standard fields" are
+-`@timestamp` and `@version`, anything else ist just free.
++`@timestamp` and `@version`, anything else is just free.
+ 
+-A custom transformer function can be provided in the options hash.
++A custom transformer function can be provided in the options initiation.
+ 
+ ## Events
+ 
+@@ -192,14 +226,13 @@ This message would be POSTed to the following endpoint:
+ 
+ So the default mapping uses an index pattern `logs-*`.
+ 
+-
+ ## Logs correlation with Elastic APM
+ 
+-### Instrument your code...
++### Instrument your code
+ 
+ - Install the official nodejs client for [elastic-apm](https://www.npmjs.com/package/elastic-apm-node)
+ 
+-```
++```sh
+ yarn add elastic-apm-node
+ - or -
+ npm install elastic-apm-node
+@@ -238,7 +271,7 @@ Will produce:
+ 
+ ```js
+ {
+-  "@timestamp": "2020-03-13T20:35:28.129Z",
++  "@timestamp": "2021-03-13T20:35:28.129Z",
+   "message": "Some log message",
+   "severity": "info",
+   "fields": {},
+@@ -255,7 +288,7 @@ Will produce:
+ 
+ Some "custom" logs may not have the apm trace.
+ 
+-If that is the case, you can retreive traces using `apm.currentTraceIds` like so:
++If that is the case, you can retrieve traces using `apm.currentTraceIds` like so:
+ 
+ ```js
+ logger.info("Some log message", { ...apm.currentTracesIds })
+@@ -277,7 +310,7 @@ If you are using a custom transformer, you should add the following code into it
+ This scenario may happen on a server (e.g. restify) where you want to log the query
+ after it was sent to the client (e.g. using `server.on('after', (req, res, route, error) => log.debug("after", { route, error }))`).
+ In that case you will not get the traces into the response because traces would
+-have stoped (as the server sent the response to the client).
++have stopped (as the server sent the response to the client).
+ 
+ In that scenario, you could do something like so:
+ 
+@@ -288,3 +321,23 @@ server.use((req, res, next) => {
+ })
+ server.on("after", (req, res, route, error) => log.debug("after", { route, error, ...req.apm }))
+ ```
++
++## Manual Flushing
++
++Flushing can be manually triggered like this:
++
++```js
++const esTransport = new ElasticsearchTransport(esTransportOpts);
++esTransport.flush();
++```
++
++## Datastreams
++
++Elasticsearch 7.9 and higher supports [Datastreams](https://www.elastic.co/guide/en/elasticsearch/reference/master/data-streams.html).
++
++When `dataStream: true` is set, bulk indexing happens with `create` instead of `index`, and also the default naming convention is `logs-*-*`, which will match the built-in [Index template](https://www.elastic.co/guide/en/elasticsearch/reference/master/index-templates.html) and [ILM](https://www.elastic.co/guide/en/elasticsearch/reference/master/index-lifecycle-management.html) policy,
++automatically creating a datastream.
++
++By default, the datastream will be named `logs-app-default`, but alternatively, you can set the `index` option to anything that matches `logs-*-*` to make use of the built-in template and ILM policy.
++
++If `dataStream: true` is enabled, AND ( you are using Elasticsearch < 7.9 OR (you have set a custom `index` that does not match `logs-*-*`  AND you have not created a custom matching template in Elasticsearch)), a normal index will be created.
+diff --git a/node_modules/winston-elasticsearch/bulk_writer.js b/node_modules/winston-elasticsearch/bulk_writer.js
+index 79cf435..56a8870 100644
+--- a/node_modules/winston-elasticsearch/bulk_writer.js
++++ b/node_modules/winston-elasticsearch/bulk_writer.js
+@@ -1,7 +1,5 @@
+-/* eslint no-underscore-dangle: ["error", { "allow": ["_index", "_type"] }] */
++/* eslint no-underscore-dangle: ['error', { 'allow': ['_index', '_type'] }] */
+ 
+-const fs = require('fs');
+-const path = require('path');
+ const Promise = require('promise');
+ const debug = require('debug')('winston:elasticsearch');
+ const retry = require('retry');
+@@ -11,8 +9,12 @@ const BulkWriter = function BulkWriter(transport, client, options) {
+   this.client = client;
+   this.options = options;
+   this.interval = options.interval || 5000;
+-  this.waitForActiveShards = options.waitForActiveShards;
++  this.healthCheckTimeout = options.healthCheckTimeout || '30s';
++  this.healthCheckWaitForStatus = options.healthCheckWaitForStatus || 'yellow';
++  this.healthCheckWaitForNodes = options.healthCheckWaitForNodes || '>=1';
++  this.waitForActiveShards = options.waitForActiveShards || '1';
+   this.pipeline = options.pipeline;
++  this.retryLimit = options.retryLimit || 400;
+ 
+   this.bulk = []; // bulk to be flushed
+   this.running = false;
+@@ -21,13 +23,15 @@ const BulkWriter = function BulkWriter(transport, client, options) {
+ };
+ 
+ BulkWriter.prototype.start = function start() {
+-  this.checkEsConnection();
++  this.checkEsConnection(this.retryLimit);
+   debug('started');
+ };
+ 
+ BulkWriter.prototype.stop = function stop() {
+   this.running = false;
+-  if (!this.timer) { return; }
++  if (!this.timer) {
++    return;
++  }
+   clearTimeout(this.timer);
+   this.timer = null;
+   debug('stopped');
+@@ -43,12 +47,15 @@ BulkWriter.prototype.schedule = function schedule() {
+ BulkWriter.prototype.tick = function tick() {
+   debug('tick');
+   const thiz = this;
+-  if (!this.running) { return; }
++  if (!this.running) {
++    return;
++  }
+   this.flush()
+     .then(() => {
+-      // Emulate finally with last .then()
++    // Emulate finally with last .then()
+     })
+-    .then(() => { // finally()
++    .then(() => {
++    // finally()
+       thiz.schedule();
+     });
+ };
+@@ -58,147 +65,221 @@ BulkWriter.prototype.flush = function flush() {
+   if (this.bulk.length === 0) {
+     debug('nothing to flush');
+     return new Promise((resolve) => {
++      // pause the buffering process when there's no more bulk to flush
++      // thus allowing the process to be terminated
++      this.running = false;
+       return resolve();
+     });
+   }
+   const bulk = this.bulk.concat();
+   this.bulk = [];
+   const body = [];
+-  bulk.forEach(({ index, type, doc }) => {
+-    body.push({ index: { _index: index, _type: type, pipeline: this.pipeline } }, doc);
++  // eslint-disable-next-line object-curly-newline
++  bulk.forEach(({ index, doc, attempts }) => {
++    body.push(
++      {
++        [this.options.dataStream ? 'create' : 'index']: {
++          _index: index,
++          pipeline: this.pipeline
++        },
++        attempts
++      },
++      doc
++    );
+   });
+   debug('bulk writer is going to write', body);
+   return this.write(body);
+ };
+ 
+-BulkWriter.prototype.append = function append(index, type, doc) {
++BulkWriter.prototype.append = function append(index, doc) {
+   if (this.options.buffering === true) {
+-    if (typeof this.options.bufferLimit === 'number' && this.bulk.length >= this.options.bufferLimit) {
++    if (
++      typeof this.options.bufferLimit === 'number'
++      && this.bulk.length >= this.options.bufferLimit
++    ) {
+       debug('message discarded because buffer limit exceeded');
+       // @todo: i guess we can use callback to notify caller
+       return;
+     }
+     this.bulk.unshift({
+-      index, type, doc
++      index,
++      doc,
++      attempts: 0
+     });
++    // resume the buffering process
++    if (!this.running) {
++      this.running = true;
++      this.tick();
++    }
+   } else {
+-    this.write([{ index: { _index: index, _type: type, pipeline: this.pipeline } }, doc]);
++    this.write([
++      { [this.options.dataStream ? 'create' : 'index']: { _index: index, pipeline: this.pipeline } },
++      doc
++    ]);
+   }
+ };
+ 
+ BulkWriter.prototype.write = function write(body) {
+   const thiz = this;
+-  return this.client.bulk({
+-    body,
+-    waitForActiveShards: this.waitForActiveShards,
+-    timeout: this.interval + 'ms',
+-  }).then((response) => {
+-    const res = response.body;
+-    if (res && res.errors && res.items) {
+-      res.items.forEach((item) => {
+-        if (item.index && item.index.error) {
+-          // eslint-disable-next-line no-console
+-          console.error('Elasticsearch index error', item.index);
+-          throw new Error('TEST');
++  const operation = [thiz.options.dataStream ? 'create' : 'index'];
++  debug('writing to ES');
++  return this.client
++    .bulk({
++      body,
++      wait_for_active_shards: this.waitForActiveShards,
++      timeout: this.interval + 'ms',
++    })
++    .then((res) => {
++      if (res && res.errors && res.items) {
++        const err = new Error('Elasticsearch error');
++        res.items.forEach((item, itemIndex) => {
++          const bodyData = body[itemIndex * 2 + 1];
++          const opKey = Object.keys(item)[0];
++          if (item[opKey] && item[opKey].error) {
++            debug('elasticsearch indexing error', item[opKey].error);
++            thiz.options.internalLogger('elasticsearch indexing error', item[opKey].error, bodyData);
++            err.indexError = item[opKey].error;
++            err.causedBy = bodyData;
++          }
++        });
++        throw err;
++      }
++    })
++    .catch((e) => {
++      // rollback this.bulk array
++      const newBody = [];
++      body.forEach((chunk, index, chunks) => {
++        const { attempts, created } = chunk;
++        if (!created && attempts < thiz.retryLimit) {
++          newBody.push({
++            index: chunk[operation]._index,
++            doc: chunks[index + 1],
++            attempts: attempts + 1,
++          });
++        } else {
++          debug('retry attempts exceeded');
++        }
++      });
++
++      const lenSum = thiz.bulk.length + newBody.length;
++      if (thiz.options.bufferLimit && lenSum >= thiz.options.bufferLimit) {
++        thiz.bulk = newBody.concat(
++          thiz.bulk.slice(0, thiz.options.bufferLimit - newBody.length)
++        );
++      } else {
++        thiz.bulk = newBody.concat(thiz.bulk);
++      }
++      debug('error occurred during writing', e);
++      this.stop();
++      this.checkEsConnection(thiz.retryLimit)
++        .catch((err) => thiz.transport.emit('error', err));
++      thiz.transport.emit('warning', e);
++
++      thiz.bulk.forEach((bulk) => {
++        if (bulk.attempts === thiz.retryLimit) {
++          this.transport.emit('error', e);
+         }
+       });
+-    }
+-  }).catch((e) => {
+-    // rollback this.bulk array
+-    const newBody = [];
+-    for (let i = 0; i < body.length; i += 2) {
+-      newBody.push({ index: body[i].index._index, type: body[i].index._type, doc: body[i + 1] });
+-    }
+-    const lenSum = thiz.bulk.length + newBody.length;
+-    if (thiz.options.bufferLimit && (lenSum >= thiz.options.bufferLimit)) {
+-      thiz.bulk = newBody.concat(thiz.bulk.slice(0, thiz.options.bufferLimit - newBody.length));
+-    } else {
+-      thiz.bulk = newBody.concat(thiz.bulk);
+-    }
+-    debug('error occurred', e);
+-    this.stop();
+-    this.checkEsConnection();
+-    // eslint-disable-next-line no-console
+-    console.log(e);
+-    // Rethrow in next run loop to prevent UnhandledPromiseRejectionWarning
+-    process.nextTick(() => {
+-      thiz.transport.emit('error', e);
+     });
+-  });
+ };
+ 
+-BulkWriter.prototype.checkEsConnection = function checkEsConnection() {
++BulkWriter.prototype.checkEsConnection = function checkEsConnection(retryLimit) {
+   const thiz = this;
+   thiz.esConnection = false;
+ 
+   const operation = retry.operation({
+-    forever: true,
+-    retries: 1,
++    forever: false,
++    retries: retryLimit,
+     factor: 1,
+-    minTimeout: 1 * 1000,
+-    maxTimeout: 60 * 1000,
++    minTimeout: 1000,
++    maxTimeout: 10 * 1000,
+     randomize: false
+   });
+   return new Promise((fulfill, reject) => {
+     operation.attempt((currentAttempt) => {
+-      debug('checking for connection');
+-      thiz.client.ping().then(
+-        (res) => {
+-          thiz.esConnection = true;
+-          // Ensure mapping template is existing if desired
+-          if (thiz.options.ensureMappingTemplate) {
+-            thiz.ensureMappingTemplate(fulfill, reject);
+-          } else {
+-            fulfill(true);
+-          }
+-          if (thiz.options.buffering === true) {
+-            debug('starting bulk writer');
+-            thiz.running = true;
+-            thiz.tick();
+-          }
+-        },
+-        (err) => {
+-          debug('checking for connection');
+-          if (operation.retry(err)) {
+-            return;
++      debug('checking for ES connection');
++      thiz.client.cluster.health({
++        timeout: thiz.healthCheckTimeout,
++        wait_for_nodes: thiz.healthCheckWaitForNodes,
++        wait_for_status: thiz.healthCheckWaitForStatus
++      })
++        .then(
++          (res) => {
++            thiz.esConnection = true;
++            const start = () => {
++              if (thiz.options.buffering === true) {
++                debug('starting bulk writer');
++                thiz.running = true;
++                thiz.tick();
++              }
++            };
++            // Ensure mapping template is existing if desired
++            if (thiz.options.ensureIndexTemplate) {
++              thiz.ensureIndexTemplate((res1) => {
++                fulfill(res1);
++                start();
++              }, reject);
++            } else {
++              fulfill(true);
++              start();
++            }
++          },
++          (err) => {
++            debug('re-checking for connection to ES');
++            if (operation.retry(err)) {
++              return;
++            }
++            thiz.esConnection = false;
++            debug('cannot connect to ES');
++            reject(new Error('Cannot connect to ES'));
+           }
+-          // thiz.esConnection = false;
+-          reject(new Error('Cannot connect to ES'));
+-        }
+-      );
++        );
+     });
+   });
+ };
+ 
+-BulkWriter.prototype.ensureMappingTemplate = function ensureMappingTemplate(fulfill, reject) {
++BulkWriter.prototype.ensureIndexTemplate = function ensureIndexTemplate(
++  fulfill,
++  reject
++) {
+   const thiz = this;
+ 
+-  const indexPrefix = (typeof thiz.options.indexPrefix === 'function' ? thiz.options.indexPrefix() : thiz.options.indexPrefix);
+-  // eslint-disable-next-line prefer-destructuring
+-  let mappingTemplate = thiz.options.mappingTemplate;
+-  if (mappingTemplate === null || typeof mappingTemplate === 'undefined') {
+-    const rawdata = fs.readFileSync(path.join(__dirname, 'index-template-mapping.json'));
+-    mappingTemplate = JSON.parse(rawdata);
+-    mappingTemplate.index_patterns = indexPrefix + '-*';
++  const indexPrefix = typeof thiz.options.indexPrefix === 'function'
++    ? thiz.options.indexPrefix()
++    : thiz.options.indexPrefix;
++
++  const { indexTemplate } = thiz.options;
++
++  let templateName = indexPrefix;
++  if (thiz.options.dataStream) {
++    if (!thiz.options.index) {
++      // hm, has this to be a console error or better a throw? is it needed at all?
++      thiz.options.internalLogger('Error while deriving templateName with options', thiz.options);
++    } else {
++      templateName = thiz.options.index;
++    }
+   }
+ 
+   const tmplCheckMessage = {
+-    name: 'template_' + indexPrefix
++    name: 'template_' + templateName
+   };
+-  thiz.client.indices.existsTemplate(tmplCheckMessage).then(
++  debug('Checking tpl name', tmplCheckMessage);
++  thiz.client.indices.existsIndexTemplate(tmplCheckMessage).then(
+     (res) => {
+       if (res.statusCode && res.statusCode === 404) {
+         const tmplMessage = {
+-          name: 'template_' + indexPrefix,
++          name: 'template_' + templateName,
+           create: true,
+-          body: mappingTemplate
++          body: indexTemplate
+         };
+-        thiz.client.indices.putTemplate(tmplMessage).then(
++        thiz.client.indices.putIndexTemplate(tmplMessage).then(
+           (res1) => {
++            debug('Index template created successfully');
+             fulfill(res1.body);
+           },
+           (err1) => {
+-            thiz.transport.emit('error', err1);
++            debug('Failed to create index template');
++            thiz.transport.emit('warning', err1);
+             reject(err1);
+           }
+         );
+@@ -207,7 +288,8 @@ BulkWriter.prototype.ensureMappingTemplate = function ensureMappingTemplate(fulf
+       }
+     },
+     (res) => {
+-      thiz.transport.emit('error', res);
++      debug('Failed to check for index template');
++      thiz.transport.emit('warning', res);
+       reject(res);
+     }
+   );
+diff --git a/node_modules/winston-elasticsearch/index-template-mapping.json b/node_modules/winston-elasticsearch/index-template-mapping.json
+index 92cf277..8e30544 100644
+--- a/node_modules/winston-elasticsearch/index-template-mapping.json
++++ b/node_modules/winston-elasticsearch/index-template-mapping.json
+@@ -1,23 +1,51 @@
+ {
+-  "index_patterns": ["logs-*"],
+-  "settings": {
+-    "number_of_shards": 1,
+-    "number_of_replicas": 0,
+-    "index": {
+-      "refresh_interval": "5s"
+-    }
+-  },
+-  "mappings": {
+-    "_source": { "enabled": true },
+-    "properties": {
+-      "@timestamp": { "type": "date" },
+-      "@version": { "type": "keyword" },
+-      "message": { "type": "text", "index": true },
+-      "severity": { "type": "keyword", "index": true },
+-      "fields": {
+-        "dynamic": true,
+-        "properties": { }
++  "priority": 200,
++  "template": {
++    "settings": {
++      "index": {
++        "mapping": {
++          "total_fields": {
++            "limit": "3000"
++          }
++        },
++        "refresh_interval": "5s",
++        "number_of_shards": "1",
++        "number_of_replicas": "0"
++      }
++    },
++    "mappings": {
++      "_source": {
++        "enabled": true
++      },
++      "properties": {
++        "severity": {
++          "index": true,
++          "type": "keyword"
++        },
++        "source": {
++          "index": true,
++          "type": "keyword"
++        },
++        "@timestamp": {
++          "type": "date"
++        },
++        "@version": {
++          "type": "keyword"
++        },
++        "fields": {
++          "dynamic": true,
++          "type": "object"
++        },
++        "message": {
++          "index": true,
++          "type": "text"
++        }
+       }
+     }
+-  }
++  },
++  "index_patterns": [
++    "logs-app-default*"
++  ],
++  "data_stream": {},
++  "composed_of": []
+ }
+diff --git a/node_modules/winston-elasticsearch/index.d.ts b/node_modules/winston-elasticsearch/index.d.ts
+index ed007a0..c0bc106 100644
+--- a/node_modules/winston-elasticsearch/index.d.ts
++++ b/node_modules/winston-elasticsearch/index.d.ts
+@@ -1,4 +1,4 @@
+-import { Client, ClientOptions, ApiResponse } from '@elastic/elasticsearch';
++import { Client, ClientOptions, estypes } from '@elastic/elasticsearch';
+ import TransportStream = require('winston-transport');
+ 
+ export interface LogData {
+@@ -13,15 +13,17 @@ export interface Transformer {
+ }
+ 
+ export interface ElasticsearchTransportOptions extends TransportStream.TransportStreamOptions {
++  dataStream?: boolean;
++  apm?: any; // typeof Agent;
+   timestamp?: () => string;
+   level?: string;
+   index?: string;
+-  indexPrefix?: string;
++  indexPrefix?: string | Function;
+   indexSuffixPattern?: string;
+-  messageType?: string;
+   transformer?: Transformer;
+-  mappingTemplate?: { [key: string]: any };
+-  ensureMappingTemplate?: boolean;
++  useTransformer?: boolean;
++  indexTemplate?: { [key: string]: any };
++  ensureIndexTemplate?: boolean;
+   flushInterval?: number;
+   waitForActiveShards?: number | 'all';
+   handleExceptions?: boolean;
+@@ -30,12 +32,30 @@ export interface ElasticsearchTransportOptions extends TransportStream.Transport
+   clientOpts?: ClientOptions;
+   buffering?: boolean;
+   bufferLimit?: number;
++  healthCheckTimeout?: string;
++  healthCheckWaitForStatus?: string;
++  healthCheckWaitForNodes?: string;
++  source?: string;
++  retryLimit?: number;
+ }
+ 
+ export class ElasticsearchTransport extends TransportStream {
+   constructor(opts?: ElasticsearchTransportOptions);
++  flush(): Promise<any>;
+ 
+-  query<T>(options: any, callback?: () => void): Promise<ApiResponse<T>>;
+-  query<T>(q: string): Promise<ApiResponse<T>>;
++  query<T>(options: any, callback?: () => void): Promise<estypes.SearchResponse<T>>;
++  query<T>(q: string): Promise<estypes.SearchResponse<T>>;
+   getIndexName(opts: ElasticsearchTransportOptions): string;
+ }
++
++interface TransformedData {
++  '@timestamp': string
++  message: string
++  severity: string
++  fields: string
++  transaction?: { id: string }
++  trace?: { id: string }
++  span?: { id: string }
++}
++
++export function ElasticsearchTransformer(logData: LogData): TransformedData;
+diff --git a/node_modules/winston-elasticsearch/index.js b/node_modules/winston-elasticsearch/index.js
+index b55903d..e624b78 100644
+--- a/node_modules/winston-elasticsearch/index.js
++++ b/node_modules/winston-elasticsearch/index.js
+@@ -8,32 +8,48 @@ const omit = require('lodash.omit');
+ const { Client } = require('@elastic/elasticsearch');
+ const defaultTransformer = require('./transformer');
+ const BulkWriter = require('./bulk_writer');
++const mappingTemplate = require('./index-template-mapping.json');
+ 
+ class ElasticsearchTransport extends Transport {
+   constructor(opts) {
+     super(opts);
+     this.name = 'elasticsearch';
++    this.handleExceptions = opts.handleExceptions || false;
++    this.handleRejections = opts.handleRejections || false;
++    this.exitOnError = false;
++    this.source = null;
+ 
+-    this.on('finish', (info) => {
+-      this.bulkWriter.schedule = () => { };
++    this.on('pipe', (source) => {
++      this.source = source;
+     });
++
++    this.on('error', (err) => {
++      this.source.pipe(this); // re-pipes readable
++    });
++
+     this.opts = opts || {};
+ 
+     // Set defaults
+     defaults(opts, {
+       level: 'info',
+-      index: null,
++      index: opts.dataStream ? 'logs-app-default' : null,
+       indexPrefix: 'logs',
+       indexSuffixPattern: 'YYYY.MM.DD',
+-      messageType: '_doc',
+       transformer: defaultTransformer,
+-      ensureMappingTemplate: true,
++      useTransformer: true,
++      ensureIndexTemplate: true,
+       flushInterval: 2000,
+       waitForActiveShards: 1,
+       handleExceptions: false,
++      exitOnError: false,
+       pipeline: null,
+       bufferLimit: null,
+-      buffering: true
++      buffering: true,
++      healthCheckTimeout: '30s',
++      healthCheckWaitForStatus: 'yellow',
++      healthCheckWaitForNodes: '>=1',
++      dataStream: false,
++      internalLogger: console.error,
+     });
+ 
+     // Use given client or create one
+@@ -57,26 +73,43 @@ class ElasticsearchTransport extends Transport {
+       this.client = new Client(copts);
+     }
+ 
+-    const bulkWriteropts = {
++    const bulkWriterOpts = {
++      index: opts.index,
+       interval: opts.flushInterval,
+       waitForActiveShards: opts.waitForActiveShards,
+       pipeline: opts.pipeline,
+-      ensureMappingTemplate: opts.ensureMappingTemplate,
+-      mappingTemplate: opts.mappingTemplate,
++      ensureIndexTemplate: opts.ensureIndexTemplate,
++      indexTemplate: opts.indexTemplate || mappingTemplate,
+       indexPrefix: opts.indexPrefix,
+       buffering: opts.buffering,
+       bufferLimit: opts.buffering ? opts.bufferLimit : 0,
++      healthCheckTimeout: opts.healthCheckTimeout,
++      healthCheckWaitForStatus: opts.healthCheckWaitForStatus,
++      healthCheckWaitForNodes: opts.healthCheckWaitForNodes,
++      dataStream: opts.dataStream,
++      retryLimit: opts.retryLimit,
++      internalLogger: opts.internalLogger,
+     };
+ 
+-    this.bulkWriter = new BulkWriter(
+-      this,
+-      this.client,
+-      bulkWriteropts
+-    );
++    this.bulkWriter = new BulkWriter(this, this.client, bulkWriterOpts);
+     this.bulkWriter.start();
+   }
+ 
+-  log(info, callback) {
++  async flush() {
++    await this.bulkWriter.flush();
++  }
++
++  // end() will be called from here: https://github.com/winstonjs/winston/blob/master/lib/winston/logger.js#L328
++  end(chunk, encoding, callback) {
++    this.bulkWriter.schedule = () => { };
++    this.bulkWriter.flush().then(() => {
++      setImmediate(() => {
++        super.end(chunk, encoding, callback); // this emits finish event from stream
++      });
++    });
++  }
++
++  async log(info, callback) {
+     const { level, message, timestamp } = info;
+     const meta = Object.assign({}, omit(info, ['level', 'message']));
+     setImmediate(() => {
+@@ -90,25 +123,33 @@ class ElasticsearchTransport extends Transport {
+       meta,
+     };
+ 
+-    const entry = this.opts.transformer(logData);
+-    let index = this.getIndexName(this.opts);
++    const entry = this.opts.useTransformer
++      ? await this.opts.transformer(logData)
++      : info;
++
++    let index = this.opts.dataStream
++      ? this.opts.index
++      : this.getIndexName(this.opts);
++
++    if (this.opts.source) {
++      entry.source = this.opts.source;
++    }
++
+     if (entry.indexInterfix !== undefined) {
+-      index = this.getIndexName(this.opts, entry.indexInterfix);
++      index = this.opts.dataStream
++        ? this.getDataStreamName(this.opts, entry.indexInterfix)
++        : this.getIndexName(this.opts, entry.indexInterfix);
+       delete entry.indexInterfix;
+     }
+ 
+     if (this.opts.apm) {
+       const apm = this.opts.apm.currentTraceIds;
+       if (apm['transaction.id']) entry.transaction = { id: apm['transaction.id'], ...entry.transaction };
+-      if (apm['trace.id']) entry.trace = { id: apm['trace.id'], ...entry.transaction };
+-      if (apm['span.id']) entry.span = { id: apm['span.id'], ...entry.transaction };
++      if (apm['trace.id']) entry.trace = { id: apm['trace.id'], ...entry.trace };
++      if (apm['span.id']) entry.span = { id: apm['span.id'], ...entry.span };
+     }
+ 
+-    this.bulkWriter.append(
+-      index,
+-      this.opts.messageType,
+-      entry
+-    );
++    this.bulkWriter.append(index, entry);
+ 
+     callback();
+   }
+@@ -125,7 +166,10 @@ class ElasticsearchTransport extends Transport {
+       }
+       const now = dayjs();
+       const dateString = now.format(opts.indexSuffixPattern);
+-      indexName = indexPrefix + (indexInterfix !== undefined ? '-' + indexInterfix : '') + '-' + dateString;
++      indexName = indexPrefix
++        + (indexInterfix !== undefined ? '-' + indexInterfix : '')
++        + '-'
++        + dateString;
+     }
+     return indexName;
+   }
+@@ -134,5 +178,6 @@ class ElasticsearchTransport extends Transport {
+ winston.transports.Elasticsearch = ElasticsearchTransport;
+ 
+ module.exports = {
+-  ElasticsearchTransport
++  ElasticsearchTransport,
++  ElasticsearchTransformer: defaultTransformer
+ };

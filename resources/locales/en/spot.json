@@ -1,0 +1,16 @@
+{
+  "buy": "Buy",
+  "sell": "Sell",
+  "market": "market",
+  "limit": "limit",
+  "stop": "stop",
+  "swap_title": "Swap Success",
+  "swap_finish": "You have just converted {fromQty} {fromAsset} to {toQty} {toAsset} successfully.",
+  "spot_close_title": "Close Order Successful",
+  "spot_close": "Order #{id}: {side} {type} {symbol} was closed successfully.",
+  "spot_place_title": "Order created",
+  "spot_place": "Order #{id}: You have just successfully created an order {side} {type} {symbol}.",
+  "spot_filled_title": "Order Matched",
+  "spot_filled": "Order #{id}: {side} {type} with pair {symbol} is successfully matched with the price is {price}.",
+  "spot_filled_redis": "Order #{id}: {side} {type} with pair {symbol} is successfully matched with the price is {price}."
+}

@@ -1,0 +1,16 @@
+{
+  "buy": "Mua",
+  "sell": "Bán",
+  "market": "thị trường",
+  "limit": "giới hạn",
+  "stop": "stop",
+  "swap_title": "Quy đổi thành công",
+  "swap_finish": "Bạn vừa quy đổi thành công {fromQty} {fromAsset} thành {toQty} {toAsset}.",
+  "spot_close_title": "Đóng lệnh thành công",
+  "spot_close": "Lệnh #{id}: {side} {type} {symbol} đã được đóng thành công.",
+  "spot_place_title": "Đặt lệnh thành công",
+  "spot_place": "Lệnh #{id}: {side} {type} {symbol} đặt thành thành công.",
+  "spot_filled_title": "Khớp lệnh thành công",
+  "spot_filled": "Lệnh #{id}: {side} {type} {symbol} đã được khớp thành công với giá {price}",
+  "spot_filled_redis": "Lệnh #{id}: {side} {type} {symbol} đã được khớp thành công với giá {price}"
+}
